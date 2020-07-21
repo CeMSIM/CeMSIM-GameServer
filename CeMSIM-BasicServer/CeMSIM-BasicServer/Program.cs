@@ -12,8 +12,6 @@ namespace CeMSIM_BasicServer
         private static bool isRunning = false;
         static void Main(string[] args)
         {
-            int maxPlayers = 10;
-            int port = 54321;
 
             Console.Title = "Game Server";
             Console.WriteLine("Hello World!");
@@ -22,7 +20,7 @@ namespace CeMSIM_BasicServer
             Thread mainThread = new Thread(new ThreadStart(MainThread));
             mainThread.Start();
 
-            Server.Start(maxPlayers, port);
+            Server.Start(Constants.CONCURRENT_CLIENTS, Constants.TCP_PORT);
 
         }
 

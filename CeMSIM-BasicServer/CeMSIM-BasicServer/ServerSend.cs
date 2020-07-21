@@ -110,9 +110,40 @@ namespace CeMSIM_BasicServer
                  * Here, user focuses on data.
                  * **/
                 _packet.Write(_msg);
-                _packet.Write(_toClient);
+                _packet.Write(_toClient); // add the client id assigned to the client
 
                 SendTCPData(_toClient, _packet);
+            }
+        }
+
+        /// <summary>
+        /// Reply client's TCP ping
+        /// </summary>
+        /// <param name="_toClient"></param>
+        /// <param name="_msg"></param>
+        public static void TCPPingReply(int _toClient, string _msg)
+        {
+            using(Packet _packet = new Packet((int)ServerPackets.pingResponseTCP))
+            {
+                _packet.Write(_msg);
+
+                SendTCPData(_toClient, _packet);
+            }
+        }
+
+
+        /// <summary>
+        /// Reply client's UDP ping
+        /// </summary>
+        /// <param name="_toClient"></param>
+        /// <param name="_msg"></param>
+        public static void UDPPingReply(int _toClient, string _msg)
+        {
+            using(Packet _packet = new Packet((int)ServerPackets.pingResponseUDP))
+            {
+                _packet.Write(_msg);
+
+                SendUDPData(_toClient, _packet);
             }
         }
     }

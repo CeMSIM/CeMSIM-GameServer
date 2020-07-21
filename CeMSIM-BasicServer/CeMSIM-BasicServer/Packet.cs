@@ -11,10 +11,9 @@ namespace CeMSIM_BasicServer
     /// </summary>
     public enum ServerPackets
     {
-        welcome = 1,
-        spawnPlayer,
-        playerPosition,
-        playerRotation
+        welcome = 1,        // welcome message sent in reply to client's tcp connection
+        pingResponseTCP,    // server response to client's pingTCP
+        pingResponseUDP,    // server response to client's pingUDP
     }
 
     /// <summary>
@@ -22,8 +21,9 @@ namespace CeMSIM_BasicServer
     /// </summary>
     public enum ClientPackets
     {
-        welcomeReceived = 1,
-        playerMovement
+        welcomeReceived = 1,// client's in response to server's welcome packet
+        pingTCP,            // ping message to the server via TCP
+        pingUDP,            // ping message to the server via UDP
     }
 
 

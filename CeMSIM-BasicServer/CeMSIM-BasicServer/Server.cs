@@ -101,6 +101,7 @@ namespace CeMSIM_BasicServer
                     // This line read the client id embedded in the packet.
                     // There may be a security issue here, but currently, it's our plan.
                     int _clientId = _packet.ReadInt32();
+                    Console.WriteLine($"Received a UDP packet from client id claimed as {_clientId}");
                     if (_clientId == 0) // invalid client id.
                     {
                         return;
@@ -150,6 +151,8 @@ namespace CeMSIM_BasicServer
             packetHandlers = new Dictionary<int, PacketHandler>
             {
                 { (int)ClientPackets.welcomeReceived, ServerHandle.WelcomeReceived },
+                { (int)ClientPackets.pingTCP, ServerHandle.TCPPingReceived},
+                { (int)ClientPackets.pingUDP, ServerHandle.UDPPingReceived}
             };
 
             Console.WriteLine("Initialized Server Data");
