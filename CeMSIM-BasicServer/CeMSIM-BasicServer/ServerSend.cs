@@ -123,7 +123,7 @@ namespace CeMSIM_BasicServer
         /// <param name="_msg"></param>
         public static void TCPPingReply(int _toClient, string _msg)
         {
-            using(Packet _packet = new Packet((int)ServerPackets.pingResponseTCP))
+            using (Packet _packet = new Packet((int)ServerPackets.pingResponseTCP))
             {
                 _packet.Write(_msg);
 
@@ -139,11 +139,52 @@ namespace CeMSIM_BasicServer
         /// <param name="_msg"></param>
         public static void UDPPingReply(int _toClient, string _msg)
         {
-            using(Packet _packet = new Packet((int)ServerPackets.pingResponseUDP))
+            using (Packet _packet = new Packet((int)ServerPackets.pingResponseUDP))
             {
                 _packet.Write(_msg);
 
                 SendUDPData(_toClient, _packet);
+            }
+        }
+
+        /// <summary>
+        /// Inform the spawn of a player
+        /// </summary>
+        /// <param name="_toClient"></param>
+        /// <param name="_player"></param>
+        public static void SpawnPlayer(int _toClient, Player _player)
+        {
+            using (Packet _packet = new Packet((int)ServerPackets.spawnPlayer))
+            {
+                _packet.Write(_player.id);
+                _packet.Write(_player.username);
+                _packet.Write(_player.position);
+                _packet.Write(_player.rotation);
+
+                SendTCPData(_toClient, _packet);
+            }
+        }
+
+        public static void PlayerPosition(Player _player)
+        {
+            using (Packet _packet = new Packet((int)ServerPackets.playerPosition))
+            {
+                _packet.Write(_player.id);
+                _packet.Write(_player.position);
+
+                MulticastUDPData(_packet);
+            }
+        }
+
+        public static void PlayerRotation(Player _player)
+        {
+            using (Packet _packet = new Packet((int)ServerPackets.PlayerRotation))
+            {
+                _packet.Write(_player.id);
+                _packet.Write(_player.rotation);
+
+                // no need to force update user's rotation
+                MulticastExceptOneUDPData(_player.id, _packet);
             }
         }
     }

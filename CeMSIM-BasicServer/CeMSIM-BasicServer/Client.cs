@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Net.Sockets;
+using System.Numerics;
 
 namespace CeMSIM_BasicServer
 {
@@ -13,6 +14,7 @@ namespace CeMSIM_BasicServer
         public int id;
         public TCP tcp;
         public UDP udp;
+        public Player player;  // the player corresponding to the client machine
 
         public Client(int _id)
         {
@@ -212,5 +214,27 @@ namespace CeMSIM_BasicServer
 
         }
 
+        // Spawn the player 
+        public void SendIntoGame(string _playerName)
+        {
+            Console.WriteLine($"Send player {id}: {_playerName} into game");
+            player = new Player(id, _playerName, new Vector3(0, 0, 0));
+
+            // 1. inform all other players the creation of current player
+            // 2. inform the current player the existance of other players
+            foreach(Client _client in Server.clients.Values)
+            {
+                if(_client.player != null)
+                {
+                    if(_client.id != id)
+                    {
+                        ServerSend.SpawnPlayer(id, _client.player);
+                    }
+                    ServerSend.SpawnPlayer(_client.id, player);
+                }
+            }
+
+
+        }
     }
 }

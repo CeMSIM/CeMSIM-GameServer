@@ -58,6 +58,7 @@
     <Compile Include="ThreadManager.cs" />
     <Compile Include="ServerSend.cs" />
     <Compile Include="ServerHandle.cs" />
+    <Compile Include="Player.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -151,8 +151,10 @@ namespace CeMSIM_BasicServer
             packetHandlers = new Dictionary<int, PacketHandler>
             {
                 { (int)ClientPackets.welcomeReceived, ServerHandle.WelcomeReceived },
-                { (int)ClientPackets.pingTCP, ServerHandle.TCPPingReceived},
-                { (int)ClientPackets.pingUDP, ServerHandle.UDPPingReceived}
+                { (int)ClientPackets.pingTCP, ServerHandle.PingTCP},
+                { (int)ClientPackets.pingUDP, ServerHandle.PingUDP},
+                { (int)ClientPackets.spawnRequest, ServerHandle.SpawnRequest},
+                { (int)ClientPackets.playerMovement, ServerHandle.PlayerMovement},
             };
 
             Console.WriteLine("Initialized Server Data");

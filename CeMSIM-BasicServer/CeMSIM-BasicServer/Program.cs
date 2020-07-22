@@ -13,7 +13,7 @@ namespace CeMSIM_BasicServer
         static void Main(string[] args)
         {
 
-            Console.Title = "Game Server";
+            Console.Title = "CeMSIM Server";
             Console.WriteLine("Hello World!");
 
             isRunning = true;
