@@ -16,7 +16,7 @@ namespace CeMSIM_BasicServer
         pingResponseUDP,    // server response to client's pingUDP
         spawnPlayer,        // the spawn of a player (also a reply to spawn request)
         playerPosition,     // update of player position
-        PlayerRotation,     // update of player rotation
+        playerRotation,     // update of player rotation
     }
 
     /// <summary>

@@ -18,8 +18,6 @@ namespace CeMSIM_BasicServer
 
             ThreadManager.UpdateMain();
         }
-        public GameLogic()
-        {
-        }
+
     }
 }

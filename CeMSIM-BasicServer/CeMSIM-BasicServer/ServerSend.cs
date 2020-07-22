@@ -26,6 +26,7 @@ namespace CeMSIM_BasicServer
         /// <param name="_packet">The packet to multicast</param>
         private static void MulticastTCPData(Packet _packet)
         {
+            _packet.WriteLength();
             for (int i = 1; i < Server.maxPlayers; i++)
             {
                 Server.clients[i].tcp.SendData(_packet);
@@ -39,6 +40,7 @@ namespace CeMSIM_BasicServer
         /// <param name="_packet"> The packet to multicast</param>
         private static void MulticastExceptOneTCPData(int _exceptClient, Packet _packet)
         {
+            _packet.WriteLength();
             for (int i = 1; i < Server.maxPlayers; i++)
             {
                 if (i != _exceptClient)
@@ -69,6 +71,7 @@ namespace CeMSIM_BasicServer
         /// <param name="_packet">The packet to multicast</param>
         private static void MulticastUDPData(Packet _packet)
         {
+            _packet.WriteLength();
             for (int i = 1; i < Server.maxPlayers; i++)
             {
                 Server.clients[i].udp.SendData(_packet);
@@ -82,6 +85,7 @@ namespace CeMSIM_BasicServer
         /// <param name="_packet"> The packet to multicast</param>
         private static void MulticastExceptOneUDPData(int _exceptClient, Packet _packet)
         {
+            _packet.WriteLength();
             for (int i = 1; i < Server.maxPlayers; i++)
             {
                 if (i != _exceptClient)
@@ -178,7 +182,7 @@ namespace CeMSIM_BasicServer
 
         public static void PlayerRotation(Player _player)
         {
-            using (Packet _packet = new Packet((int)ServerPackets.PlayerRotation))
+            using (Packet _packet = new Packet((int)ServerPackets.playerRotation))
             {
                 _packet.Write(_player.id);
                 _packet.Write(_player.rotation);

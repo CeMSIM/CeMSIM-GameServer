@@ -145,7 +145,7 @@ namespace CeMSIM_BasicServer
                         {
                             int _packetId = _packet.ReadInt32();
 
-                            Console.WriteLine($"Receive a packet with id {_packetId}");
+                            Console.WriteLine($"Receive a packet with id {_packetId} from client {id}");
                             // call proper handling function based on packet id
                             Server.packetHandlers[_packetId](id, _packet);
                         }
