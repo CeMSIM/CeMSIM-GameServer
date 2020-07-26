@@ -89,6 +89,7 @@ namespace CeMSIM_BasicServer
                     if (_byteLength <= 0)
                     {
                         // disconnect
+                        Server.clients[id].Disconnect();
                         return;
                     }
 
@@ -106,7 +107,7 @@ namespace CeMSIM_BasicServer
                 catch (Exception e)
                 {
                     Console.WriteLine($"Server exception {e}");
-
+                    Server.clients[id].Disconnect();
                     // disconnect
                 }
             }
@@ -170,6 +171,19 @@ namespace CeMSIM_BasicServer
                 }
                 return false;
             }
+
+            /// <summary>
+            /// Disconnect TCP socket. Release all TCP related resources.
+            /// </summary>
+            public void Disconnect()
+            {
+                socket.Close();
+                stream = null;
+                receivedData = null;
+                receiveBuffer = null;
+                socket = null;
+            }
+
         }
 
         /// <summary>
@@ -212,6 +226,11 @@ namespace CeMSIM_BasicServer
 
             }
 
+            public void Disconnect()
+            {
+                endPoint = null;
+            }
+
         }
 
         // Spawn the player 
@@ -235,6 +254,17 @@ namespace CeMSIM_BasicServer
             }
 
 
+        }
+
+        private void Disconnect()
+        {
+            Console.WriteLine($"{tcp.socket.Client.RemoteEndPoint} has disconnected.");
+
+            player = null;
+
+            if (tcp.socket != null)
+                tcp.Disconnect();
+            udp.Disconnect();
         }
     }
 }
