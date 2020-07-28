@@ -6,14 +6,21 @@ public class Player : MonoBehaviour
 {
     public int id;
     public string username;
+    public CharacterController controller;
+    public float gravity_per_tick = Constants.GRAVITY;
+    public float moveSpeed_per_tick = Constants.MOVE_SPEED_PER_SECOND;
+    public float jumpSpeed_per_tick = Constants.JUMP_SPEED_PER_SECOND;
 
-    // constained in "transform"
-    //public Vector3 position;
-    //public Quaternion rotation;
-
-    private float moveSpeed = Constants.MOVE_SPEED_PER_SECOND / Constants.TICKS_PER_SECOND;
     private bool[] inputs;
+    private float yVelocity = 0;    // player's vertical velocity
 
+
+    private void Start()
+    {
+        gravity_per_tick *= Time.fixedDeltaTime * Time.fixedDeltaTime;
+        moveSpeed_per_tick *= Time.fixedDeltaTime;
+        jumpSpeed_per_tick *= Time.fixedDeltaTime;
+    }
 
     //public Player(int _id, string _username) // unity monobehavior doesn't allow constructor
     public void Initialize(int _id, string _username)
@@ -24,7 +31,7 @@ public class Player : MonoBehaviour
         //rotation = Quaternion.identity;
 
 
-        inputs = new bool[4];
+        inputs = new bool[5];
 
     }
     
@@ -65,8 +72,23 @@ public class Player : MonoBehaviour
         //Vector3 _right = Vector3.Normalize(Vector3.Cross(_forward, new Vector3(0, 1, 0)));
 
         Vector3 _moveDirection = transform.right * _inputDirection.x + transform.forward * _inputDirection.y;
+        Vector3 _moveVector = _moveDirection * moveSpeed_per_tick;
         //position += _moveDirection * moveSpeed;
-        transform.position += _moveDirection * moveSpeed;
+
+        // consider gravity if player is on the ground
+        if (controller.isGrounded)
+        {
+            yVelocity = 0f;
+            if (inputs[4]) // whether jump key (space) is pressed
+            {
+                yVelocity = jumpSpeed_per_tick;
+            }
+        }
+        yVelocity += gravity_per_tick; // gravity * 1 tick 
+
+        _moveVector.y = yVelocity;
+
+        controller.Move(_moveVector);
 
 
         // public the position to every client, but public the facing direction to all but the player

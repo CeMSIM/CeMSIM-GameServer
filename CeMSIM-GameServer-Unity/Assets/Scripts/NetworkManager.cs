@@ -49,6 +49,6 @@ public class NetworkManager : MonoBehaviour
     public Player InstantiatePlayer()
     {
         // initialize a player at the initial location and return the reference
-        return Instantiate(playerPrefab, Vector3.zero, Quaternion.identity).GetComponent<Player>();
+        return Instantiate(playerPrefab, new Vector3(0f, 0.2f, 0f), Quaternion.identity).GetComponent<Player>();
     }
 }
