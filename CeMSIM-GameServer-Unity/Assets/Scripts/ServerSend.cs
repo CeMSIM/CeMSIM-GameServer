@@ -189,4 +189,15 @@ public class ServerSend : MonoBehaviour
             MulticastExceptOneUDPData(_player.id, _packet);
         }
     }
+
+    public static void PlayerDisconnect(int _playerId)
+    {
+        using (Packet _packet = new Packet((int)ServerPackets.playerDisconnected))
+        {
+            _packet.Write(_playerId);
+
+            // This packet is important, we cannot afford losing it.
+            MulticastTCPData(_packet); 
+        }
+    }
 }
