@@ -103,6 +103,7 @@ public class Server
                 Debug.Log($"Received a UDP packet from client id claimed as {_clientId}");
                 if (_clientId == 0) // invalid client id.
                 {
+                    Debug.Log("Invalid user id");
                     return;
                 }
 

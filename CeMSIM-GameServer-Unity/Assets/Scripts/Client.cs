@@ -242,7 +242,6 @@ public class Client
         player.Initialize(id, _playerName);
 
         // 1. inform all other players the creation of current player
-        // 2. inform the current player the existance of other players
         foreach (Client _client in Server.clients.Values)
         {
             if (_client.player != null)
@@ -251,6 +250,14 @@ public class Client
                 {
                     ServerSend.SpawnPlayer(id, _client.player);
                 }
+            }
+        }
+
+        // 2. inform the current player the existance of other players
+        foreach (Client _client in Server.clients.Values)
+        {
+            if (_client.player != null)
+            {
                 ServerSend.SpawnPlayer(_client.id, player);
             }
         }
@@ -270,8 +277,7 @@ public class Client
         });
 
 
-        if (tcp.socket != null)
-            tcp.Disconnect();
+        tcp.Disconnect();
         udp.Disconnect();
     }
 }
