@@ -101,7 +101,7 @@ public class Server
                 // There may be a security issue here, but currently, it's our plan.
                 int _clientId = _packet.ReadInt32();
                 Debug.Log($"Received a UDP packet from client id claimed as {_clientId}");
-                if (_clientId == 0) // invalid client id.
+                if (_clientId == 0 || _clientId >= maxPlayers) // invalid client id.
                 {
                     Debug.Log("Invalid user id");
                     return;
